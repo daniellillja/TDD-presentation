@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.NetworkInformation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Should;
@@ -12,6 +14,9 @@ namespace AustinCodeDay0315.Tests
 
         // What if we want multiply functionality?
         int Multiply(string numbers);
+
+        // What if we want other operations - we must must continue to create new methods with no code reuse
+        // With unit tests it is possible to refactor while maintaining confidence in our work
     }
 
     // StringCalculator must implement all methods declared in interface
@@ -19,23 +24,11 @@ namespace AustinCodeDay0315.Tests
     public class StringCalculator:IStringCalculator
     {
         // What must our calculator do? We need to be able to add numbers from an input string
-        public int Add(string numbers)
+        public int Add(string expression)
         {
-            if (String.IsNullOrWhiteSpace(numbers))
-            {
-                throw new ArgumentException("Expression should not be null or empty.");
-            }
+            NumberCalculation calculation = new AddCalculation(expression);
 
-            var sum = 0;
-            var symbols = numbers.Split('+');
-            foreach (var symbol in symbols)
-            {
-                int parsed = 0;
-                Int32.TryParse(symbol, out parsed);
-                sum += parsed;
-            }
-
-            return sum;
+            return calculation.Calculate();
         }
 
         public int Multiply(string numbers)
@@ -56,6 +49,57 @@ namespace AustinCodeDay0315.Tests
 
             return sum;
         }
+    }
+
+    public class AddCalculation : NumberCalculation
+    {
+        public AddCalculation(string expression) :
+            base(expression, '+')
+        {
+            
+        }
+
+        public override int Calculate()
+        {
+            var result = 0;
+            foreach (var number in Numbers)
+            {
+                result += number;
+            }
+            return result;
+        }
+    }
+
+    public abstract class NumberCalculation
+    {
+        protected List<int> Numbers { get; set; }
+        protected char Delimiter { get; set; }
+
+        protected NumberCalculation(String expression, char delimiter)
+        {
+            if (String.IsNullOrWhiteSpace(expression))
+            {
+                throw new ArgumentException("Expression should not be null or empty.");
+            }
+            Delimiter = delimiter;
+            CreateNumbersList(expression);
+        }
+
+        private void CreateNumbersList(string expression)
+        {
+            var tokens = expression.Split(Delimiter);
+            Numbers = tokens.Where(t => CanParse(t))
+                .Select(t => Convert.ToInt32(t))
+                .ToList();
+        }
+
+        private bool CanParse(string s)
+        {
+            int value = 0;
+            return Int32.TryParse(s, out value);
+        }
+
+        public abstract int Calculate();
     }
 
     [TestClass]

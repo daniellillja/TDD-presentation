@@ -1,0 +1,17 @@
+ProductId,Category,Name,Quantity,UnitPrice
+1,Accessories,USB drive,2,5
+2,Accessories,Logitech mouse,4,25
+3,Accessories,Logitech wireless mouse,1,50
+4,Tablets,Ipad,3,450
+5,Tablets,Android tablet,5,300
+6,Phones,Iphone,10,300
+7,Hardware,4 gb memory stick,8,45
+8,Hardware,Wifi card,8,30
+9,Hardware,Intel xeon processor,8,400
+10,Hardware,Super high end graphics card,8,450
+11,Hardware,Hard drive (ssd),4,150
+12,Hardware,Hard drive,4,99
+13,Hardware,CPU cooler,7,59
+14,Software,Visual studio,4,500
+15,Software,Windows 8,8,150
+16,Software,Microsoft office,10,250

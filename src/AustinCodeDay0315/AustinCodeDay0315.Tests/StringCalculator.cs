@@ -31,23 +31,30 @@ namespace AustinCodeDay0315.Tests
             return calculation.Calculate();
         }
 
-        public int Multiply(string numbers)
+        public int Multiply(string expression)
         {
-            if (String.IsNullOrWhiteSpace(numbers))
-            {
-                throw new ArgumentException("Expression should not be null or empty.");
-            }
+            NumberCalculation calculation = new MultiplyCalculation(expression);
 
-            var sum = 1;
-            var symbols = numbers.Split('*');
-            foreach (var symbol in symbols)
-            {
-                int parsed = 1;
-                Int32.TryParse(symbol, out parsed);
-                sum *= parsed;
-            }
+            return calculation.Calculate();
+        }
+    }
 
-            return sum;
+    public class MultiplyCalculation : NumberCalculation
+    {
+        public MultiplyCalculation(string expression)
+            : base(expression, '*')
+        {
+            
+        }
+
+        public override int Calculate()
+        {
+            var result = 1;
+            foreach (var number in Numbers)
+            {
+                result *= number;
+            }
+            return result;
         }
     }
 

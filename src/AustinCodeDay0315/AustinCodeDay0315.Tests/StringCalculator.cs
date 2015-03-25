@@ -81,6 +81,7 @@ namespace AustinCodeDay0315.Tests
     {
         protected List<int> Numbers { get; set; }
         protected char Delimiter { get; set; }
+        public string Expression { get; set; }
 
         protected NumberCalculation(String expression, char delimiter)
         {
@@ -90,6 +91,7 @@ namespace AustinCodeDay0315.Tests
             }
             Delimiter = delimiter;
             CreateNumbersList(expression);
+            Expression = expression;
         }
 
         private void CreateNumbersList(string expression)

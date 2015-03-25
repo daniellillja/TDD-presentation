@@ -9,6 +9,9 @@ namespace AustinCodeDay0315.Tests
     public interface IStringCalculator
     {
         int Add(string numbers);
+
+        // What if we want multiply functionality?
+        int Multiply(string numbers);
     }
 
     // StringCalculator must implement all methods declared in interface
@@ -30,6 +33,25 @@ namespace AustinCodeDay0315.Tests
                 int parsed = 0;
                 Int32.TryParse(symbol, out parsed);
                 sum += parsed;
+            }
+
+            return sum;
+        }
+
+        public int Multiply(string numbers)
+        {
+            if (String.IsNullOrWhiteSpace(numbers))
+            {
+                throw new ArgumentException("Expression should not be null or empty.");
+            }
+
+            var sum = 1;
+            var symbols = numbers.Split('*');
+            foreach (var symbol in symbols)
+            {
+                int parsed = 1;
+                Int32.TryParse(symbol, out parsed);
+                sum *= parsed;
             }
 
             return sum;
@@ -75,6 +97,42 @@ namespace AustinCodeDay0315.Tests
 
 
         }
+
+        [TestMethod]
+        // Lets try three numbers
+        public void AddingThreeNumbers()
+        {
+            // Arrange
+            var fixture = new StringCalculatorTestFixture();
+            var sut = fixture.BuildSut();
+            var input = "1+2+10";
+
+            // Act
+            var output = sut.Add(input);
+
+            // Assert
+            // Lets try a cleaner way of asserting - introducting the Should library
+            output.ShouldEqual(13);
+
+
+        }
+
+        [TestMethod]
+        public void FourTimesTwoEqualsEight()
+        {
+            // Arrange
+            var fixture = new StringCalculatorTestFixture();
+            var sut = fixture.BuildSut();
+            var input = "4*2";
+
+            // Act
+            var output = sut.Multiply(input);
+
+            // Assert
+            // Lets try a cleaner way of asserting - introducting the Should library
+            output.ShouldEqual(8);
+        }
+
 
     }
 
